@@ -6,24 +6,20 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-    recipe = Recipe.create!(recipe_params)
-    if recipe
+    recipe = Recipe.new(recipe_params)
+    if recipe.save
       render json: recipe
     else
-      render json: recipe.errors
+      render json: { message: recipe.errors.full_messages }, status: :bad_request
     end
   end
 
   def show
-    if recipe
-      render json: recipe
-    else
-      render json: recipe.errors
-    end
+    render json: recipe
   end
 
   def destroy
-    recipe&.destroy
+    recipe.destroy
     render json: { message: 'Recipe deleted!' }
   end
 
@@ -34,6 +30,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def recipe
-    @recipe ||= Recipe.find(params[:id])
+    @recipe = Recipe.find(params[:id])
   end
 end
