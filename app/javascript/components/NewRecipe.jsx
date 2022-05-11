@@ -20,7 +20,7 @@ export default function NewRecipe() {
     };
     axios.post('/api/v1/recipes', value_params, headers)
          .then((response) => {
-            window.open('/recipes');
+            window.location = '/recipes';
           })
           .catch(error => {
             const showErrors = (errors) => {

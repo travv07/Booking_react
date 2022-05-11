@@ -21,6 +21,28 @@ export default function Recipe() {
     </li>
   ));
 
+  const deleteRecipe = () => {
+    axios.delete(`/api/v1/recipes/${params.id}`)
+         .then((response) => {
+            window.location = '/recipes';
+          })
+         .catch(error => {
+           const showErrors = (errors) => {
+             if (Array.isArray(errors)) {
+               errors?.forEach((error) => {
+                 alert(error);
+               });
+             } else {
+               alert(errors);
+             }
+           }
+           let errorMessages = error?.response?.data?.message;
+           if (errorMessages) {
+             showErrors(errorMessages);
+           }
+        });
+  }
+
   return (
     <div className="">
       <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -47,7 +69,7 @@ export default function Recipe() {
 
           </div>
           <div className="col-sm-12 col-lg-2">
-            <button type="button" className="btn btn-danger">
+            <button type="button" className="btn btn-danger" onClick={deleteRecipe}>
               Delete Recipe
             </button>
           </div>
